@@ -7,7 +7,7 @@ public class Day02 {
         String[] lines = InputReader.getLinesOfFile("inputs/day02.txt");
 //        String[] lines = InputReader.getLinesOfFile("inputs/day02.example.1.txt");
         Game[] games = parse(lines);
-        for (Game g : games) System.out.println(g);
+//        for (Game g : games) System.out.println(g);
 
         int validGameIdsSum = Arrays.stream(games).mapToInt(g -> g.isValid(12, 13, 14) ? g.id : 0).sum();
         System.out.println("Day 02 - Part A: " + validGameIdsSum);
