@@ -13,7 +13,11 @@ public class InputReader {
      * @return
      */
     public static String[] getLinesOfFileByParameters(int year, int day, Integer exampleNumber) {
-        return getLinesOfFile("");
+        String e = "";
+        if(exampleNumber != null){
+            e = ".example." + exampleNumber;
+        }
+        return getLinesOfFile(String.format("inputs/%s/day%s%s.txt", year, day, e));
     }
 
 
