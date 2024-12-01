@@ -7,7 +7,7 @@ public class Day02 {
 
     public static void main(String[] args) {
         String[] lines = InputReader.getLinesOfFile("inputs/day02.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day02.example.1.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day02.example.1.txt");
         Game[] games = parse(lines);
 //        for (Game g : games) System.out.println(g);
 

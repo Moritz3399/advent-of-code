@@ -1,14 +1,15 @@
 package year2023;
 
 import java.util.ArrayList;
+import utils.*;
 
 public class Day01 {
 
 
     public static void main(String[] args) {
         String[] lines = InputReader.getLinesOfFile("inputs/day01.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day01.example.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day01.example.2.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day01.example.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day01.example.2.txt");
         int sum = solve(lines);
         System.out.println("Part A:" + sum);
         int partB = solve(preprocessInput(lines));

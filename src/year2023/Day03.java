@@ -9,11 +9,11 @@ public class Day03 {
 
     public static void main(String[] args) {
         String[] lines = InputReader.getLinesOfFile("inputs/day03.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day03.example.1.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day03.example.2.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day03.example.3.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day03.example.4.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day03.example.5.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day03.example.1.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day03.example.2.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day03.example.3.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day03.example.4.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day03.example.5.txt");
         int[] partNumbers = getPartNumbers(lines);
         int sumOfPartNumbers = Arrays.stream(partNumbers).sum();
         System.out.println("Day 03 - Part A: " + sumOfPartNumbers); // 517021

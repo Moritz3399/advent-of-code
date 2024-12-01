@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Day04 {
     public static void main(String[] args) {
         String[] lines = InputReader.getLinesOfFile("inputs/day04.txt");
-//        String[] lines = InputReader.getLinesOfFile("inputs/day04.example.1.txt");
+//        String[] lines = utils.InputReader.getLinesOfFile("inputs/day04.example.1.txt");
 
         Card[] cards = Arrays.stream(lines).map(Card::new).toArray(Card[]::new);
 //        Arrays.stream(cards).mapToInt(c -> c.getMyWinningNumbers().length).filter(i -> i > 0).map(i -> (int) Math.pow(2, i - 1)).forEach(System.out::println);
