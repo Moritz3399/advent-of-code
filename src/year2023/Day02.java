@@ -2,6 +2,7 @@ package year2023;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import utils.*;
 
 public class Day02 {
 
