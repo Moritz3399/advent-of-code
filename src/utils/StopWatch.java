@@ -18,6 +18,6 @@ public class StopWatch {
     public String toString() {
         if(startMs == null) return "Stop watch was not started!";
         if(endMs == null) return "Stop watch is running!";
-        return "Stopped time: " + (endMs - startMs);
+        return "Stopped time: " + (endMs - startMs) + " ms";
     }
 }
