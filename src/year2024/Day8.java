@@ -22,6 +22,7 @@ public class Day8 {
         }
 
         System.out.println("Day 8 Part A: Unique location in bounds: " + calculateHeatMap(antennas, new int[input.length][input[0].length()], false)); // 220
+        System.out.println("Day 8 Part B: Unique location in bounds: " + calculateHeatMap(antennas, new int[input.length][input[0].length()], true)); // 813
 
 
     }
@@ -34,19 +35,50 @@ public class Day8 {
                     CoordinatePoint a = frequencyAntennas.get(i);
                     CoordinatePoint b = frequencyAntennas.get(j);
 
-                    int antinode0X = 2 * a.getX() - b.getX();
-                    int antinode0Y = 2 * a.getY() - b.getY();
+                    // a =  b + (a - b)
+                    // c = b + n*(a-b) ? n *a - (n-1)b
+                    // Part A for n = 2
 
-                    int antinode1X = 2 * b.getX() - a.getX();
-                    int antinode1Y = 2 * b.getY() - a.getY();
+                    if (doMultiple) {
+                        int aIndex = 0;
+                        try {
+                            while (true) {
+                                int x = aIndex * a.getX() - b.getX() * (aIndex - 1);
+                                int y = aIndex * a.getY() - b.getY() * (aIndex - 1);
+                                heatMap[y][x]++;
+                                aIndex++;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException ignore) {
+                        }
+                        int bIndex = 0;
+                        try {
+                            while (true) {
+                                int x = bIndex * b.getX() - a.getX() * (bIndex - 1);
+                                int y = bIndex * b.getY() - a.getY() * (bIndex - 1);
+                                heatMap[y][x]++;
+                                bIndex++;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException ignore) {
+                        }
 
-                    try {
-                        heatMap[antinode0Y][antinode0X]++;
-                    } catch (ArrayIndexOutOfBoundsException ignore) {
-                    }
-                    try {
-                        heatMap[antinode1Y][antinode1X]++;
-                    } catch (ArrayIndexOutOfBoundsException ignore) {
+
+                    } else {
+
+
+                        int antinode0X = 2 * a.getX() - b.getX();
+                        int antinode0Y = 2 * a.getY() - b.getY();
+
+                        int antinode1X = 2 * b.getX() - a.getX();
+                        int antinode1Y = 2 * b.getY() - a.getY();
+
+                        try {
+                            heatMap[antinode0Y][antinode0X]++;
+                        } catch (ArrayIndexOutOfBoundsException ignore) {
+                        }
+                        try {
+                            heatMap[antinode1Y][antinode1X]++;
+                        } catch (ArrayIndexOutOfBoundsException ignore) {
+                        }
                     }
                 }
             }
@@ -55,7 +87,7 @@ public class Day8 {
         for (int y = 0; y < heatMap.length; y++) {
             for (int x = 0; x < heatMap[y].length; x++) {
                 int v = heatMap[y][x];
-                System.out.print(v == 0 ? " " : v);
+                System.out.print(v == 0 ? "." : v);
                 if (v > 0) locationCounter++;
             }
             System.out.println();
