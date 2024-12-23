@@ -29,11 +29,33 @@ public class Day12 {
             }
             int regionPrice = regionCellCount * regionFencedCellSides;
             System.out.println("Region " + r + " has " + regionCellCount + " cells with " + regionFencedCellSides + " fence sections. Region price: " + regionPrice);
-            totalFenceCosts+= regionPrice;
+            totalFenceCosts += regionPrice;
         }
 
-        System.out.println("Day 12: Part A: Total fence costs: "+ totalFenceCosts); // 1375574
+        System.out.println("Day 12: Part A: Total fence costs: " + totalFenceCosts); // 1375574
 
+        checkCorners(mapCells);
+        int totalFenceCostsDiscount = 0;
+        for (int r = 0; r <= maxRegionId; r++) {
+            int regionCellCount = 0;
+            int regionSharpCorners = 0;
+            int regionDullCorners = 0;
+            for (int y = 0; y < mapCells.length; y++) {
+                for (int x = 0; x < mapCells[y].length; x++) {
+                    MapCell c = mapCells[y][x];
+                    if (c.getRegionId() == r) {
+                        regionCellCount++;
+                        regionSharpCorners += c.getSharpCorners();
+                        regionDullCorners += c.getDullCorners();
+                    }
+
+                }
+            }
+            int regionPrice = regionCellCount * (regionSharpCorners + regionDullCorners);
+            System.out.println("Region " + r + " has " + regionCellCount + " cells with " + regionSharpCorners + " sharp and "+ regionDullCorners+" dull corners. Region bulk price: " + regionPrice);
+            totalFenceCostsDiscount += regionPrice;
+        }
+        System.out.println("Day 12: Part B: Discounted price: " + totalFenceCostsDiscount); // 830566
 
     }
 
@@ -92,12 +114,67 @@ public class Day12 {
         }
     }
 
+    private static void checkCorners(MapCell[][] map) {
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[y].length; x++) {
+                if (map[y][x].getNeighboursWithEqualRegionLetter() == 0) {
+                    map[y][x].setSharpCorners(4);
+                    map[y][x].setDullCorners(0);
+                    continue;
+                }
+                // to be done!!!
+                boolean[][] m = new boolean[3][3];
+                m[0][0] = ArrayUtils.is2dIndexInBounds(map, y - 1, x - 1) && map[y][x].isSameLetter(map[y - 1][x - 1]);
+                m[0][1] = ArrayUtils.is2dIndexInBounds(map, y - 1, x) && map[y][x].isSameLetter(map[y - 1][x]);
+                m[0][2] = ArrayUtils.is2dIndexInBounds(map, y - 1, x + 1) && map[y][x].isSameLetter(map[y - 1][x + 1]);
+                m[1][0] = ArrayUtils.is2dIndexInBounds(map, y, x - 1) && map[y][x].isSameLetter(map[y][x - 1]);
+                m[1][1] = true;
+                m[1][2] = ArrayUtils.is2dIndexInBounds(map, y, x + 1) && map[y][x].isSameLetter(map[y][x + 1]);
+                m[2][0] = ArrayUtils.is2dIndexInBounds(map, y + 1, x - 1) && map[y][x].isSameLetter(map[y + 1][x - 1]);
+                m[2][1] = ArrayUtils.is2dIndexInBounds(map, y + 1, x) && map[y][x].isSameLetter(map[y + 1][x]);
+                m[2][2] = ArrayUtils.is2dIndexInBounds(map, y + 1, x + 1) && map[y][x].isSameLetter(map[y + 1][x + 1]);
+
+                int sharpCorners = 0;
+                int dullCorners = 0;
+
+                //top left
+                if (m[1][0] == false && m[0][1] == false) {
+                    sharpCorners++;
+                } else if (m[1][0] == true && m[0][1] == true && m[0][0] == false) {
+                    dullCorners++;
+                }
+                //top right
+                if (m[1][2] == false && m[0][1] == false) {
+                    sharpCorners++;
+                } else if (m[1][2] == true && m[0][1] == true && m[0][2] == false) {
+                    dullCorners++;
+                }
+                //lower right
+                if (m[1][2] == false && m[2][1] == false) {
+                    sharpCorners++;
+                } else if (m[1][2] == true && m[2][1] == true && m[2][2] == false) {
+                    dullCorners++;
+                }
+                //lower left
+                if (m[1][0] == false && m[2][1] == false) {
+                    sharpCorners++;
+                } else if (m[1][0] == true && m[2][1] == true && m[2][0] == false) {
+                    dullCorners++;
+                }
+                map[y][x].setSharpCorners(sharpCorners);
+                map[y][x].setDullCorners(dullCorners);
+                }
+        }
+    }
+
 
     private static class MapCell {
 
         private final char regionLetter;
         private Integer regionId = null;
         private Integer neighboursWithEqualRegionLetter = null;
+        private Integer sharpCorners = null;
+        private Integer dullCorners = null;
 
 
         public MapCell(char regionLetter) {
@@ -131,6 +208,22 @@ public class Day12 {
 
         public void setRegionId(Integer regionId) {
             this.regionId = regionId;
+        }
+
+        public Integer getSharpCorners() {
+            return sharpCorners;
+        }
+
+        public void setSharpCorners(Integer sharpCorners) {
+            this.sharpCorners = sharpCorners;
+        }
+
+        public Integer getDullCorners() {
+            return dullCorners;
+        }
+
+        public void setDullCorners(Integer dullCorners) {
+            this.dullCorners = dullCorners;
         }
     }
 
