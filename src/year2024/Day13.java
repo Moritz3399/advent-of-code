@@ -14,15 +14,27 @@ public class Day13 {
         int tokensToWin = 0;
         for (ClawMachine m : machines) {
             int tokens = m.minTokensToWin();
-            if(tokens == -1){
+            if (tokens == -1) {
                 System.out.println("Not possible to win!");
             } else {
                 tokensToWin += tokens;
                 System.out.println(tokens + " tokens to win");
             }
-            System.out.println();
         }
         System.out.println("Day 13: Part A: Tokens required to win all possible prices: " + tokensToWin); // 37686
+
+        long tokensToWinCorrected = 0;
+        for (ClawMachine m : machines) {
+            long tokens = m.correctedMinTokensToWin();
+            if (tokens == -1) {
+                System.out.println("Not possible to win!");
+            } else {
+                tokensToWinCorrected += tokens;
+                System.out.println(tokens + " tokens to win");
+            }
+        }
+        System.out.println("Day 13: Part B: Tokens required to win all possible prices after corrections: " + tokensToWinCorrected); // 77204516023437
+
     }
 
     private static List<ClawMachine> parseInput(String[] input) {
@@ -113,6 +125,21 @@ public class Day13 {
             }
 
             return minToken == Integer.MAX_VALUE ? -1 : minToken;
+        }
+
+        public long correctedMinTokensToWin() {
+            long correctionValue = 10000000000000L;
+            long cx = x + correctionValue;
+            long cy = y + correctionValue;
+
+            long bc = (long) cy * ax - (long) cx * ay; // Zähler
+            long bd = (long) by * ax - (long) bx * ay; // Nennen
+            if (bc % bd != 0) return -1L;
+            long b = (bc / bd);
+            long ac = (cx - b * bx);
+            if(ac % ax != 0) return -1L;
+            long a = ac / ax;
+            return 3 * a + b;
         }
     }
 
